@@ -1,0 +1,33 @@
+package com.example.Movie_Ticket_Booking_System.Models;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "theaters")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Theater {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String name;
+
+    private String address;
+
+    @OneToMany(mappedBy = "theater", cascade = CascadeType.ALL)
+    private List<TheaterSeat> theaterSeatList=new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "theater")
+    private List<Show> listOfShows=new ArrayList<>();
+
+
+}
