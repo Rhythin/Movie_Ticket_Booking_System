@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserEntryDTO {
 
-    private int id;
-
     private String name;
 
     private int age;

@@ -4,6 +4,7 @@ import com.example.Movie_Ticket_Booking_System.Enums.Genre;
 import com.example.Movie_Ticket_Booking_System.Enums.Langauge;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Movie {
 
     @Id

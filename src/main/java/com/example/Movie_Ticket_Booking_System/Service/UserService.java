@@ -1,5 +1,6 @@
 package com.example.Movie_Ticket_Booking_System.Service;
 
+import com.example.Movie_Ticket_Booking_System.Converters.UserConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.UserEntryDTO;
 import com.example.Movie_Ticket_Booking_System.Models.User;
 import com.example.Movie_Ticket_Booking_System.Repository.UserRepository;
@@ -14,13 +15,7 @@ public class UserService {
 
     public String addUser(UserEntryDTO userEntryDTO){
 
-        User user=User.builder()
-                .name(userEntryDTO.getName())
-                .age(userEntryDTO.getAge())
-                .email(userEntryDTO.getEmail())
-                .mobile(userEntryDTO.getMobile())
-                .build();
-
+        User user= UserConvertor.ConvertDtoToUserEntity(userEntryDTO);
 
         userRepository.save(user);
 
