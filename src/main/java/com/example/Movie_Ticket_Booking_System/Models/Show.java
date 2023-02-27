@@ -1,10 +1,9 @@
 package com.example.Movie_Ticket_Booking_System.Models;
 
-import com.example.Movie_Ticket_Booking_System.Enums.SeatType;
 import com.example.Movie_Ticket_Booking_System.Enums.ShowType;
 import jakarta.persistence.*;
-import jdk.jfr.Timestamp;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,6 +19,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Show {
 
     @Id
@@ -50,5 +50,5 @@ public class Show {
     private List<Ticket> listOfTickets=new ArrayList<>();
 
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
-    private List<ShowSeats> listOfShowSeats=new ArrayList<>();
+    private List<ShowSeat> listOfShowSeats=new ArrayList<>();
 }

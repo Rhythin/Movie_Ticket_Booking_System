@@ -3,6 +3,7 @@ package com.example.Movie_Ticket_Booking_System.Models;
 import com.example.Movie_Ticket_Booking_System.Enums.SeatType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TheaterSeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
