@@ -2,11 +2,14 @@ package com.example.Movie_Ticket_Booking_System.Models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,6 +17,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Ticket {
 
     @Id
@@ -21,6 +25,8 @@ public class Ticket {
     private int id;
 
     private String movieName;
+
+    private String theaterName;
 
     private LocalDate showDate;
 
@@ -38,4 +44,6 @@ public class Ticket {
     @JoinColumn
     private Show show;
 
+    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
+    private List<ShowSeat> bookedSeatList=new ArrayList<>();
 }

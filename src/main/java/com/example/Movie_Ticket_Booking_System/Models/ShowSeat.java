@@ -34,4 +34,8 @@ public class ShowSeat {
     @ManyToOne
     @JoinColumn
     private Show show;
+
+    @ManyToOne
+    @JoinColumn
+    private Ticket ticket;
 }
