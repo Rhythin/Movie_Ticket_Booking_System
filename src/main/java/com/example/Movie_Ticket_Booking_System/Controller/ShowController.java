@@ -14,7 +14,6 @@ public class ShowController {
     @Autowired
     ShowService showService;
 
-
     @PostMapping("/add_show")
     public ResponseEntity addShow(@RequestBody ShowEntryDTO showEntryDTO){
         try {
@@ -23,6 +22,17 @@ public class ShowController {
         }
         catch (Exception e){
             return new ResponseEntity<>("Show not added", HttpStatus.CREATED);
+        }
+    }
+
+    @GetMapping("/get_show_time")
+    public ResponseEntity getShowTime(@RequestParam("movieId")int movieId, @RequestParam("theaterId") int theaterId){
+        try {
+            String response=showService.getShowTime(movieId, theaterId);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

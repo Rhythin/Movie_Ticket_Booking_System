@@ -12,6 +12,7 @@ public class UserConvertor {
                 .email(userEntryDTO.getEmail())
                 .mobile(userEntryDTO.getMobile())
                 .build();
+
         return user;
     }
 

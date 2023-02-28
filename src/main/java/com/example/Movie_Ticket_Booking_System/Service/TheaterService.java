@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TheaterService {
@@ -63,5 +65,17 @@ public class TheaterService {
         theaterSeatRepository.saveAll(theaterSeatList);
 
         return theaterSeatList;
+    }
+
+    public List<String> getUniqueLocations() {
+        Set<String> response=new HashSet<>();
+
+        List<Theater> theaterList=theaterRepository.findAll();
+
+        for (Theater theater:theaterList){
+            response.add(theater.getLocation());
+        }
+
+        return new ArrayList<>(response);
     }
 }

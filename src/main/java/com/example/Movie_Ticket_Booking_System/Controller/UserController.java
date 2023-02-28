@@ -25,7 +25,7 @@ public class UserController {
             return new ResponseEntity(response, HttpStatus.CREATED);
         }
         catch (Exception e){
-            return new ResponseEntity("User was not added", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getStackTrace(), HttpStatus.BAD_REQUEST);
         }
 
     }

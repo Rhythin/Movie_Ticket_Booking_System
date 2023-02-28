@@ -8,6 +8,7 @@ import com.example.Movie_Ticket_Booking_System.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +73,9 @@ public class ShowService {
 
         showSeatRepository.saveAll(showSeatsList);
         return  showSeatsList;
+    }
+
+    public String getShowTime(int movieId, int theaterId) {
+        return LocalDate.now().toString();
     }
 }

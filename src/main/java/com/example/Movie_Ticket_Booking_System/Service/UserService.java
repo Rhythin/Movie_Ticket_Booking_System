@@ -2,6 +2,7 @@ package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.UserConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.UserEntryDTO;
+
 import com.example.Movie_Ticket_Booking_System.Models.User;
 import com.example.Movie_Ticket_Booking_System.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
