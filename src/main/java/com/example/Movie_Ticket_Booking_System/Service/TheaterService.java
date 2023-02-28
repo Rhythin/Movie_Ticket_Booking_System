@@ -29,6 +29,8 @@ public class TheaterService {
 
         List<TheaterSeat> theaterSeatList=crateTheaterSeats(theaterEntryDTO, theater);
 
+        theater.setTheaterSeatList(theaterSeatList);
+
         theaterRepository.save(theater);
 
         return "Theater and theater Seats created";
@@ -62,7 +64,7 @@ public class TheaterService {
             theaterSeatList.add(theaterSeat);
         }
 
-        theaterSeatRepository.saveAll(theaterSeatList);
+//        theaterSeatRepository.saveAll(theaterSeatList);
 
         return theaterSeatList;
     }

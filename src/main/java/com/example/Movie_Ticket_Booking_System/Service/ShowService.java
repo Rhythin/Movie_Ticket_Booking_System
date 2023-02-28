@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class ShowService {
         List<ShowSeat> showSeatsList=createShowSeatsList(showEntryDTO, show);
 
         show.setListOfShowSeats(showSeatsList);
+        showRepository.save(show);
 
         Movie movie=movieRepository.findById(showEntryDTO.getMovieId()).get();
 
@@ -46,7 +48,7 @@ public class ShowService {
 
         movieRepository.save(movie);
         theaterRepository.save(theater);
-        showRepository.save(show);
+        //showRepository.save(show);
 
         return "show has been created";
     }
@@ -71,11 +73,20 @@ public class ShowService {
             showSeatsList.add(showSeats);
         }
 
-        showSeatRepository.saveAll(showSeatsList);
+        //showSeatRepository.saveAll(showSeatsList);
         return  showSeatsList;
     }
 
-    public String getShowTime(int movieId, int theaterId) {
-        return LocalDate.now().toString();
+    public List<String> getShowTime(int movieId, int theaterId) {
+        List<String> response=new ArrayList<>();
+
+        List<Show> showList=showRepository.getShowForMovieAndTheater(movieId, theaterId);
+
+        for(Show show:showList){
+            String time=show.getShowDate().toString()+" "+show.getShowTime().toString();
+            response.add(time);
+        }
+
+        return response;
     }
 }

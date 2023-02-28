@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
+import java.util.List;
+
 @RestController
 @RequestMapping("/shows")
 public class ShowController {
@@ -21,14 +24,14 @@ public class ShowController {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         }
         catch (Exception e){
-            return new ResponseEntity<>("Show not added", HttpStatus.CREATED);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CREATED);
         }
     }
 
     @GetMapping("/get_show_time")
     public ResponseEntity getShowTime(@RequestParam("movieId")int movieId, @RequestParam("theaterId") int theaterId){
         try {
-            String response=showService.getShowTime(movieId, theaterId);
+            List<String> response=showService.getShowTime(movieId, theaterId);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         }
         catch (Exception e){

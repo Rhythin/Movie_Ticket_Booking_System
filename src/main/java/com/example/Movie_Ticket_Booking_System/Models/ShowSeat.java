@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "show_seats")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
