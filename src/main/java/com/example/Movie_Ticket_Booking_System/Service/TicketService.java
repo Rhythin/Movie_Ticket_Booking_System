@@ -13,6 +13,7 @@ import com.example.Movie_Ticket_Booking_System.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +28,8 @@ public class TicketService {
 
     @Autowired
     ShowSeatRepository showSeatRepository;
+
+
 
     public String bookTicket(TicketEntryDTO ticketEntryDTO) throws Exception {
 
@@ -45,6 +48,7 @@ public class TicketService {
             total+=showSeat.getPrice();
             showSeat.setTicket(ticket);
             showSeat.setBooked(true);
+            showSeat.setBookedOn(new Date());
             ticket.getBookedSeatList().add(showSeat);
             showSeatRepository.save(showSeat);
         }
@@ -65,6 +69,8 @@ public class TicketService {
         ticket.setUser(user);
         user.getListOfTickets().add(ticket);
 
+        userRepository.save(user);
+        showRepository.save(show);
 
         return "ticket booked successfully";
     }
@@ -81,5 +87,23 @@ public class TicketService {
         }
 
         return true;
+    }
+
+    public String cancelTicket(int ticketId) {
+
+        Ticket ticket=ticketRepository.findById(ticketId).get();
+
+        for (ShowSeat showSeat:ticket.getBookedSeatList()){
+            showSeat.setBooked(false);
+            showSeat.setBookedOn(null);
+            showSeat.setTicket(null);
+            showSeatRepository.save(showSeat);
+        }
+
+        ticket.setCancelled(true);
+
+        ticketRepository.save(ticket);
+
+        return "ticket cancelled";
     }
 }

@@ -6,9 +6,7 @@ import com.example.Movie_Ticket_Booking_System.Models.Ticket;
 public class TicketConvertor {
 
     public static Ticket convertDtoToTicketEntity(TicketEntryDTO ticketEntryDTO){
-        Ticket ticket=Ticket.builder()
-
-                .build();
+        Ticket ticket=new Ticket();
 
         return ticket;
     }

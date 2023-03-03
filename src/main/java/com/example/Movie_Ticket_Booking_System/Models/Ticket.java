@@ -34,6 +34,8 @@ public class Ticket {
 
     private int totalAmount;
 
+    private boolean cancelled;
+
     private String ticketId= UUID.randomUUID().toString();
 
     @ManyToOne
