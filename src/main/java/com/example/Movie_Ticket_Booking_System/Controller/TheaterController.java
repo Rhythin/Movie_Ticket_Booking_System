@@ -1,6 +1,7 @@
 package com.example.Movie_Ticket_Booking_System.Controller;
 
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.TheaterEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.MovieResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TheaterResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.UserResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Service.TheaterService;
@@ -56,6 +57,26 @@ public class TheaterController {
     public ResponseEntity getAll() {
         try {
             List<TheaterResponseDTO> response = theaterService.getAll();
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getTheatersInLocation")
+    public ResponseEntity getTheatersInLocation(@RequestParam("location") String location) {
+        try {
+            List<TheaterResponseDTO> response = theaterService.getTheatersInLocation(location);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getMoviesAvailableInLocation")
+    public ResponseEntity getMoviesAvailableInLocation(@RequestParam("location") String location) {
+        try {
+            List<MovieResponseDTO> response = theaterService.getMoviesAvailableInLocation(location);
             return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);

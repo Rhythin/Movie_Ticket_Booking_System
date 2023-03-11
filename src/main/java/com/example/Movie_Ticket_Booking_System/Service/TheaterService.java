@@ -1,11 +1,16 @@
 package com.example.Movie_Ticket_Booking_System.Service;
 
+import com.example.Movie_Ticket_Booking_System.Converters.MovieConvertor;
 import com.example.Movie_Ticket_Booking_System.Converters.TheaterConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.TheaterEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.MovieResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TheaterResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Enums.SeatType;
+import com.example.Movie_Ticket_Booking_System.Models.Movie;
+import com.example.Movie_Ticket_Booking_System.Models.Show;
 import com.example.Movie_Ticket_Booking_System.Models.Theater;
 import com.example.Movie_Ticket_Booking_System.Models.TheaterSeat;
+import com.example.Movie_Ticket_Booking_System.Repository.MovieRepository;
 import com.example.Movie_Ticket_Booking_System.Repository.TheaterRepository;
 import com.example.Movie_Ticket_Booking_System.Repository.TheaterSeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +25,10 @@ import java.util.Set;
 public class TheaterService {
     @Autowired
     TheaterRepository theaterRepository;
-
     @Autowired
     TheaterSeatRepository theaterSeatRepository;
+    @Autowired
+    MovieRepository movieRepository;
 
     public String addTheater(TheaterEntryDTO theaterEntryDTO){
 
@@ -65,7 +71,7 @@ public class TheaterService {
             theaterSeatList.add(theaterSeat);
         }
 
-//        theaterSeatRepository.saveAll(theaterSeatList);
+        theaterSeatRepository.saveAll(theaterSeatList);
 
         return theaterSeatList;
     }
@@ -100,4 +106,36 @@ public class TheaterService {
     }
 
 
+    public List<TheaterResponseDTO> getTheatersInLocation(String location) {
+        List<TheaterResponseDTO> response=new ArrayList<>();
+
+        List<Theater> theaterList=theaterRepository.findByLocation(location);
+
+        for(Theater theater:theaterList){
+            response.add(TheaterConvertor.convertEntityToResponseDTO(theater));
+        }
+
+        return  response;
+    }
+
+
+    public List<MovieResponseDTO> getMoviesAvailableInLocation(String location) {
+        List<MovieResponseDTO> response = new ArrayList<>();
+
+        List<Theater> theaterList=theaterRepository.findByLocation(location);
+        Set<Integer> movieIds=new HashSet<>();
+
+        for (Theater theater:theaterList){
+            for (Show show:theater.getListOfShows()){
+                movieIds.add(show.getMovie().getId());
+            }
+        }
+
+        for(Integer id:movieIds){
+            Movie movie=movieRepository.findById(id).get();
+            response.add(MovieConvertor.convertEntityToResponseDTO(movie));
+        }
+
+        return response;
+    }
 }

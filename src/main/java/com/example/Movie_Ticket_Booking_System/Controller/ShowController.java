@@ -3,13 +3,16 @@ package com.example.Movie_Ticket_Booking_System.Controller;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.ShowEntryDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowSeatResponseDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TicketResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.UserResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -71,4 +74,45 @@ public class ShowController {
             return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getSalesForShow")
+    public ResponseEntity getSalesForShow(@RequestParam("id") int id) {
+        try {
+            Long response = showService.getSalesForShow(id);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getBookedTicketsForShow")
+    public ResponseEntity getBookedTicketsForShow(@RequestParam("id") int id) {
+        try {
+            List<TicketResponseDTO> response = showService.getBookedTicketsForShow(id);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getShowsForMovieAndLocation")
+    public ResponseEntity getShowsForMovieAndLocation(@RequestParam("id") int movieId, @RequestParam("location") String location) {
+        try {
+            List<ShowResponseDTO> response = showService.getShowsForMovieAndLocation(movieId, location);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getShowsForDate")
+    public ResponseEntity getShowsForDate(@RequestParam(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        try {
+            List<ShowResponseDTO> response = showService.getShowsForDate(date);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

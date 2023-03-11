@@ -2,9 +2,11 @@ package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.ShowConvertor;
 import com.example.Movie_Ticket_Booking_System.Converters.ShowSeatConvertor;
+import com.example.Movie_Ticket_Booking_System.Converters.TicketConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.ShowEntryDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowSeatResponseDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TicketResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Enums.SeatType;
 import com.example.Movie_Ticket_Booking_System.Models.*;
 import com.example.Movie_Ticket_Booking_System.Repository.*;
@@ -126,4 +128,55 @@ public class ShowService {
     }
 
 
+    public Long getSalesForShow(int id) {
+        Long sales=0L;
+
+        Show show=showRepository.findById(id).get();
+        for(Ticket ticket:show.getListOfTickets()){
+            if(!ticket.isCancelled()){
+                sales+=ticket.getTotalAmount();
+            }
+        }
+
+        return sales;
+    }
+
+    public List<TicketResponseDTO> getBookedTicketsForShow(int id) {
+        List<TicketResponseDTO> response = new ArrayList<>();
+
+        Show show=showRepository.findById(id).get();
+        for(Ticket ticket:show.getListOfTickets()){
+            if(!ticket.isCancelled()){
+                response.add(TicketConvertor.convertEntityToResponseDTO(ticket));
+            }
+        }
+
+        return response;
+    }
+
+
+    public List<ShowResponseDTO> getShowsForMovieAndLocation(int movieId, String location) {
+        List<ShowResponseDTO> response = new ArrayList<>();
+
+        List<Show> showList=showRepository.findShowByMovieId(movieId);
+
+        for(Show show:showList){
+            if(show.getTheater().getLocation().equalsIgnoreCase(location)){
+                response.add(ShowConvertor.convertEntityToResponseDTO(show));
+            }
+        }
+        return response;
+    }
+
+
+    public List<ShowResponseDTO> getShowsForDate(LocalDate date) {
+        List<ShowResponseDTO> response=new ArrayList<>();
+        List<Show> showList= showRepository.findByShowDate(date);
+
+        for(Show show:showList){
+            response.add(ShowConvertor.convertEntityToResponseDTO(show));
+        }
+
+        return response;
+    }
 }

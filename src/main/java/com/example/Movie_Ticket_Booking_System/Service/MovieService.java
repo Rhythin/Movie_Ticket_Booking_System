@@ -6,6 +6,7 @@ import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.MovieResponseDT
 import com.example.Movie_Ticket_Booking_System.Models.Movie;
 import com.example.Movie_Ticket_Booking_System.Models.Show;
 import com.example.Movie_Ticket_Booking_System.Models.Theater;
+import com.example.Movie_Ticket_Booking_System.Models.Ticket;
 import com.example.Movie_Ticket_Booking_System.Repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,20 @@ public class MovieService {
         }
 
         return response;
+    }
+
+    public Long salesForMovieById(int id) {
+        Long sales=0L;
+
+        Movie movie=movieRepository.findById(id).get();
+        for(Show show:movie.getListOfShows()){
+            for(Ticket ticket:show.getListOfTickets()){
+                if(!ticket.isCancelled()){
+                    sales+=ticket.getTotalAmount();
+                }
+            }
+        }
+
+        return sales;
     }
 }

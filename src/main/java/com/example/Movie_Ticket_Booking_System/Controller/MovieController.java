@@ -72,4 +72,15 @@ public class MovieController {
             return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/salesForMovieById")
+    public ResponseEntity salesForMovieById(@RequestParam("id") int id) {
+        try {
+            Long response = movieService.salesForMovieById(id);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

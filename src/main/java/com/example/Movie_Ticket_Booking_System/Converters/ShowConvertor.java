@@ -28,6 +28,7 @@ public class ShowConvertor {
                 .createdOn(show.getCreatedOn())
                 .movie(MovieConvertor.convertEntityToResponseDTO(show.getMovie()))
                 .showSeats(new ArrayList<>())
+                .theaterName(show.getTheater().getName())
                 .build();
 
         for(ShowSeat showSeat:show.getListOfShowSeats()){

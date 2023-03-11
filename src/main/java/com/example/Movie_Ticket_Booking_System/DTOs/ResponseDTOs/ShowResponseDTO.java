@@ -24,5 +24,6 @@ public class ShowResponseDTO {
     private Date createdOn;
     private MovieResponseDTO movie;
     private List<ShowSeatResponseDTO> showSeats=new ArrayList<>();
+    private String theaterName;
 
 }
