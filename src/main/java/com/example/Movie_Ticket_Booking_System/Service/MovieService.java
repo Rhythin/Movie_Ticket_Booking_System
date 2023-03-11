@@ -2,6 +2,7 @@ package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.MovieConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.MovieEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.MovieResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Models.Movie;
 import com.example.Movie_Ticket_Booking_System.Models.Show;
 import com.example.Movie_Ticket_Booking_System.Models.Theater;
@@ -51,6 +52,25 @@ public class MovieService {
 
         for(Show show:movie.getListOfShows()){
             response.add(show.getTheater().getName());
+        }
+
+        return response;
+    }
+
+    public MovieResponseDTO getById(int id) {
+        Movie movie=movieRepository.findById(id).get();
+
+        MovieResponseDTO movieResponseDTO=MovieConvertor.convertEntityToResponseDTO(movie);
+
+        return movieResponseDTO;
+    }
+
+    public List<MovieResponseDTO> getAll() {
+        List<MovieResponseDTO> response =new ArrayList<>();
+
+        for(Movie movie:movieRepository.findAll()){
+            MovieResponseDTO movieResponseDTO=MovieConvertor.convertEntityToResponseDTO(movie);
+            response.add(movieResponseDTO);
         }
 
         return response;
