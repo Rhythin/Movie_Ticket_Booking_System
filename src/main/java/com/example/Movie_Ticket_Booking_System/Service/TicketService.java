@@ -2,6 +2,7 @@ package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.TicketConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.TicketEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TicketResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Models.Show;
 import com.example.Movie_Ticket_Booking_System.Models.ShowSeat;
 import com.example.Movie_Ticket_Booking_System.Models.Ticket;
@@ -13,6 +14,7 @@ import com.example.Movie_Ticket_Booking_System.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -106,5 +108,23 @@ public class TicketService {
         ticketRepository.save(ticket);
 
         return "ticket cancelled";
+    }
+
+    public TicketResponseDTO getById(int id) {
+        Ticket ticket=ticketRepository.findById(id).get();
+
+        return TicketConvertor.convertEntityToResponseDTO(ticket);
+    }
+
+
+    public List<TicketResponseDTO> getAll() {
+        List<TicketResponseDTO> responseDTOList=new ArrayList<>();
+
+        for(Ticket ticket: ticketRepository.findAll()){
+            TicketResponseDTO ticketResponseDTO=TicketConvertor.convertEntityToResponseDTO(ticket);
+            responseDTOList.add(ticketResponseDTO);
+        }
+
+        return responseDTOList;
     }
 }
