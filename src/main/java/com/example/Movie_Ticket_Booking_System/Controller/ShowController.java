@@ -61,4 +61,14 @@ public class ShowController {
             return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/getAvailableSeats")
+    public ResponseEntity getAvailableSeats(@RequestParam("id") int id) {
+        try {
+            List<ShowSeatResponseDTO> response = showService.getAvailableSeats(id);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.ShowConvertor;
+import com.example.Movie_Ticket_Booking_System.Converters.ShowSeatConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.ShowEntryDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowResponseDTO;
 import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowSeatResponseDTO;
@@ -19,13 +20,10 @@ import java.util.List;
 public class ShowService {
     @Autowired
     ShowRepository showRepository;
-
     @Autowired
     MovieRepository movieRepository;
-
     @Autowired
     TheaterRepository theaterRepository;
-
     @Autowired
     ShowSeatRepository showSeatRepository;
 
@@ -111,4 +109,21 @@ public class ShowService {
 
         return response;
     }
+
+    public List<ShowSeatResponseDTO> getAvailableSeats(int id) {
+        List<ShowSeatResponseDTO> response=new ArrayList<>();
+
+        Show show=showRepository.findById(id).get();
+
+        for(ShowSeat showSeat:show.getListOfShowSeats()){
+            if(!showSeat.isBooked()){
+                ShowSeatResponseDTO showSeatResponseDTO= ShowSeatConvertor.convertEntityToResponseDTO(showSeat);
+                response.add(showSeatResponseDTO);
+            }
+        }
+
+        return response;
+    }
+
+
 }
