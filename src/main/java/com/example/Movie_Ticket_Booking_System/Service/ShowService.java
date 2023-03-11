@@ -2,6 +2,8 @@ package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.ShowConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.ShowEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowResponseDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.ShowSeatResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Enums.SeatType;
 import com.example.Movie_Ticket_Booking_System.Models.*;
 import com.example.Movie_Ticket_Booking_System.Repository.*;
@@ -85,6 +87,26 @@ public class ShowService {
         for(Show show:showList){
             String time=show.getShowDate().toString()+" "+show.getShowTime().toString();
             response.add(time);
+        }
+
+        return response;
+    }
+
+
+    public ShowResponseDTO getById(int id) {
+        Show show=showRepository.findById(id).get();
+
+        ShowResponseDTO showResponseDTO=ShowConvertor.convertEntityToResponseDTO(show);
+
+        return showResponseDTO;
+    }
+
+    public List<ShowResponseDTO> getAll() {
+        List<ShowResponseDTO> response=new ArrayList<>();
+
+        for(Show show:showRepository.findAll()){
+            ShowResponseDTO showResponseDTO=ShowConvertor.convertEntityToResponseDTO(show);
+            response.add(showResponseDTO);
         }
 
         return response;

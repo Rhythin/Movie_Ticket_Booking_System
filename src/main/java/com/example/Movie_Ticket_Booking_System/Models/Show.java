@@ -26,7 +26,6 @@ public class Show {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     private LocalDate showDate;
 
     private LocalTime showTime;
