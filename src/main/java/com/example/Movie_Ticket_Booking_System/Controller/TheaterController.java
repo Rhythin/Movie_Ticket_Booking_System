@@ -1,6 +1,8 @@
 package com.example.Movie_Ticket_Booking_System.Controller;
 
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.TheaterEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TheaterResponseDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.UserResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Service.TheaterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,26 @@ public class TheaterController {
         }
         catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getById")
+    public ResponseEntity getById(@RequestParam("id") int id) {
+        try {
+            TheaterResponseDTO response = theaterService.getById(id);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity getAll() {
+        try {
+            List<TheaterResponseDTO> response = theaterService.getAll();
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity("Error", HttpStatus.BAD_REQUEST);
         }
     }
 

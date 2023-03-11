@@ -2,6 +2,7 @@ package com.example.Movie_Ticket_Booking_System.Service;
 
 import com.example.Movie_Ticket_Booking_System.Converters.TheaterConvertor;
 import com.example.Movie_Ticket_Booking_System.DTOs.EntryDTOs.TheaterEntryDTO;
+import com.example.Movie_Ticket_Booking_System.DTOs.ResponseDTOs.TheaterResponseDTO;
 import com.example.Movie_Ticket_Booking_System.Enums.SeatType;
 import com.example.Movie_Ticket_Booking_System.Models.Theater;
 import com.example.Movie_Ticket_Booking_System.Models.TheaterSeat;
@@ -80,4 +81,23 @@ public class TheaterService {
 
         return new ArrayList<>(response);
     }
+
+    public TheaterResponseDTO getById(int id) {
+        Theater theater=theaterRepository.findById(id).get();
+        TheaterResponseDTO theaterResponseDTO=TheaterConvertor.convertEntityToResponseDTO(theater);
+
+        return theaterResponseDTO;
+    }
+
+    public List<TheaterResponseDTO> getAll() {
+        List<TheaterResponseDTO> responseDTOList=new ArrayList<>();
+
+        for(Theater theater:theaterRepository.findAll()){
+            responseDTOList.add(TheaterConvertor.convertEntityToResponseDTO(theater));
+        }
+
+        return responseDTOList;
+    }
+
+
 }
