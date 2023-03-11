@@ -72,7 +72,7 @@ public class TicketService {
         userRepository.save(user);
         showRepository.save(show);
 
-        return "ticket booked successfully";
+        return "ticket booked successfully. Ticket Id:"+ticket.getId();
     }
 
     public boolean validateRequestedSeats(TicketEntryDTO ticketEntryDTO){
@@ -101,6 +101,7 @@ public class TicketService {
         }
 
         ticket.setCancelled(true);
+        ticket.getBookedSeatList().clear();
 
         ticketRepository.save(ticket);
 
