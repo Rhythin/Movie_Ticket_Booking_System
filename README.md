@@ -1,5 +1,18 @@
 # 🎬 Movie Ticket Booking System
 
+<div align="center">
+
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring%20Data%20JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+![REST API](https://img.shields.io/badge/REST%20API-02569B?style=for-the-badge&logo=rest&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white)
+
+</div>
+
 A comprehensive **Spring Boot REST API** application for movie ticket booking, inspired by platforms like BookMyShow. This system provides a complete backend solution for managing movies, theaters, shows, and ticket bookings with enterprise-grade features.
 
 ## 🚀 Project Overview
@@ -70,55 +83,23 @@ The system uses a well-normalized database design with the following entities:
 
 ## 📚 API Documentation
 
-### 👥 User Management
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/users/addUser` | Register new user |
-| GET | `/users/getById?id={id}` | Get user details |
-| GET | `/users/getAll` | List all users |
-| PUT | `/users/update?id={id}` | Update user information |
-| DELETE | `/users/deleteById?id={id}` | Delete user account |
-| GET | `/users/getTicketsById?id={id}` | Get user's booking history |
+📖 **Complete API Documentation Available**: 
+- **OpenAPI 3.0 Specification**: [`docs/openapi.yaml`](docs/openapi.yaml)
+- **JSON Format**: [`docs/openapi.json`](docs/openapi.json)
 
-### 🎬 Movie Management
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/movie/addMovie` | Add new movie |
-| GET | `/movie/getById?id={id}` | Get movie details |
-| GET | `/movie/getAll` | List all movies |
-| GET | `/movie/movie_with_max_shows` | Get most popular movie |
-| GET | `/movie/theaters_for_movie/{id}` | Get theaters showing movie |
-| GET | `/movie/salesForMovieById?id={id}` | Get movie revenue |
+The API documentation includes:
+- **30+ REST endpoints** organized by functionality (Users, Movies, Theaters, Shows, Tickets)
+- **Detailed request/response schemas** with examples
+- **Parameter specifications** and validation rules
+- **Error handling** documentation
+- **Authentication schemas** (for future implementation)
 
-### 🏛️ Theater Management
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/theater/add_theater` | Add new theater |
-| GET | `/theater/getById?id={id}` | Get theater details |
-| GET | `/theater/getAll` | List all theaters |
-| GET | `/theater/get_unique_locations` | Get available locations |
-| GET | `/theater/getTheatersInLocation?location={location}` | Get theaters by location |
-| GET | `/theater/getMoviesAvailableInLocation?location={location}` | Get movies by location |
-
-### 🎭 Show Management
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/shows/add_show` | Create new show |
-| GET | `/shows/getById?id={id}` | Get show details |
-| GET | `/shows/getAll` | List all shows |
-| GET | `/shows/get_show_time?movieId={id}&theaterId={id}` | Get show timings |
-| GET | `/shows/getAvailableSeats?id={id}` | Get available seats |
-| GET | `/shows/getSalesForShow?id={id}` | Get show revenue |
-| GET | `/shows/getShowsForMovieAndLocation?id={id}&location={location}` | Find shows by movie and location |
-| GET | `/shows/getShowsForDate?date={date}` | Get shows by date |
-
-### 🎫 Ticket Management
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/ticket/book` | Book movie tickets |
-| PUT | `/ticket/cancel?ticketId={id}` | Cancel booking |
-| GET | `/ticket/getById?id={id}` | Get ticket details |
-| GET | `/ticket/getAll` | List all tickets |
+**Quick API Overview**:
+- **Users**: Registration, profile management, booking history
+- **Movies**: Catalog management, theater listings, sales analytics
+- **Theaters**: Location-based search, seat management
+- **Shows**: Scheduling, availability, revenue tracking
+- **Tickets**: Booking, cancellation, detailed receipts
 
 ## 🚀 Getting Started
 
@@ -164,19 +145,25 @@ The system uses a well-normalized database design with the following entities:
 ## 📁 Project Structure
 
 ```
-src/
-├── main/java/com/example/Movie_Ticket_Booking_System/
-│   ├── Controller/          # REST API endpoints
-│   ├── Service/            # Business logic layer
-│   ├── Repository/         # Data access layer
-│   ├── Models/             # JPA entities
-│   ├── DTOs/               # Data transfer objects
-│   │   ├── EntryDTOs/      # Request DTOs
-│   │   └── ResponseDTOs/   # Response DTOs
-│   ├── Converters/         # Entity-DTO converters
-│   └── Enums/              # Application constants
-└── resources/
-    └── application.properties
+Movie_Ticket_Booking_System/
+├── docs/                   # API Documentation
+│   ├── openapi.yaml       # OpenAPI 3.0 specification
+│   └── openapi.json       # JSON format documentation
+├── src/
+│   ├── main/java/com/example/Movie_Ticket_Booking_System/
+│   │   ├── Controller/          # REST API endpoints
+│   │   ├── Service/            # Business logic layer
+│   │   ├── Repository/         # Data access layer
+│   │   ├── Models/             # JPA entities
+│   │   ├── DTOs/               # Data transfer objects
+│   │   │   ├── EntryDTOs/      # Request DTOs
+│   │   │   └── ResponseDTOs/   # Response DTOs
+│   │   ├── Converters/         # Entity-DTO converters
+│   │   └── Enums/              # Application constants
+│   └── resources/
+│       └── application.properties
+├── pom.xml                 # Maven configuration
+└── README.md              # Project documentation
 ```
 
 ## 🎯 Key Technical Highlights
@@ -208,8 +195,8 @@ src/
 - [ ] **Admin Dashboard** for system management
 - [ ] **Mobile API** optimization
 - [ ] **Caching Layer** (Redis) for performance
-- [ ] **API Documentation** (Swagger/OpenAPI)
 - [ ] **Docker Containerization**
+- [x] **API Documentation** (OpenAPI/Swagger) ✅
 
 ### Technical Improvements
 - [ ] **Unit & Integration Tests** (JUnit 5)
