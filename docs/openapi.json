@@ -1,0 +1,1614 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Movie Ticket Booking System API",
+    "description": "A comprehensive REST API for movie ticket booking system inspired by BookMyShow.\n\nThis API provides complete functionality for:\n- User management and authentication\n- Movie catalog management\n- Theater and show management\n- Ticket booking and cancellation\n- Sales analytics and reporting\n\n## Features\n- 30+ REST API endpoints\n- Real-time seat availability management\n- Dynamic pricing for different seat types\n- Location-based search functionality\n- Sales analytics and reporting\n\n## Base URL\nAll API requests should be made to: `http://localhost:9996`\n",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Rhythin",
+      "url": "https://github.com/Rhythin",
+      "email": "your.email@example.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9996",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User management operations"
+    },
+    {
+      "name": "Movies",
+      "description": "Movie catalog management"
+    },
+    {
+      "name": "Theaters",
+      "description": "Theater and location management"
+    },
+    {
+      "name": "Shows",
+      "description": "Show scheduling and management"
+    },
+    {
+      "name": "Tickets",
+      "description": "Ticket booking and management"
+    }
+  ],
+  "paths": {
+    "/users/addUser": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register a new user",
+        "description": "Creates a new user account in the system",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "user entry Created userId is :1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User not added"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/getById": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user details by ID",
+        "description": "Retrieves detailed information about a specific user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/getAll": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "description": "Retrieves a list of all users in the system",
+        "responses": {
+          "200": {
+            "description": "List of users retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/update": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update user details",
+        "description": "Updates an existing user's information",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Details of user with id 1 is Updated"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Update failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User details not updated"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/deleteById": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete user by ID",
+        "description": "Deletes a user and cancels all associated tickets",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User with id 1 deleted"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Deletion failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/getTicketsById": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user's booking history",
+        "description": "Retrieves all tickets booked by a specific user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's tickets retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving tickets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movie/addMovie": {
+      "post": {
+        "tags": ["Movies"],
+        "summary": "Add a new movie",
+        "description": "Adds a new movie to the catalog",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Movie added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Movie added successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Movie creation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movie/getById": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Get movie details by ID",
+        "description": "Retrieves detailed information about a specific movie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movie details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MovieResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Movie not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movie/getAll": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Get all movies",
+        "description": "Retrieves a list of all movies in the catalog",
+        "responses": {
+          "200": {
+            "description": "List of movies retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MovieResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movie/movie_with_max_shows": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Get most popular movie",
+        "description": "Retrieves the movie with the maximum number of shows",
+        "responses": {
+          "200": {
+            "description": "Most popular movie retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Avengers: Endgame"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving popular movie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error occurred"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movie/theaters_for_movie/{id}": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Get theaters showing a movie",
+        "description": "Retrieves list of theaters currently showing a specific movie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Theaters list retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["PVR Cinemas", "INOX Theatre", "Cinepolis"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving theaters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movie/salesForMovieById": {
+      "get": {
+        "tags": ["Movies"],
+        "summary": "Get movie sales revenue",
+        "description": "Retrieves total sales revenue for a specific movie",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sales revenue retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 125000
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving sales",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/theater/add_theater": {
+      "post": {
+        "tags": ["Theaters"],
+        "summary": "Add a new theater",
+        "description": "Adds a new theater to the system",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TheaterEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Theater added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Theater added successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Theater creation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/theater/getById": {
+      "get": {
+        "tags": ["Theaters"],
+        "summary": "Get theater details by ID",
+        "description": "Retrieves detailed information about a specific theater",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Theater details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TheaterResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Theater not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/theater/getAll": {
+      "get": {
+        "tags": ["Theaters"],
+        "summary": "Get all theaters",
+        "description": "Retrieves a list of all theaters in the system",
+        "responses": {
+          "200": {
+            "description": "List of theaters retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TheaterResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving theaters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/theater/get_unique_locations": {
+      "get": {
+        "tags": ["Theaters"],
+        "summary": "Get unique theater locations",
+        "description": "Retrieves list of unique locations where theaters are present",
+        "responses": {
+          "200": {
+            "description": "Unique locations retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["Mumbai", "Delhi", "Bangalore", "Chennai"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/theater/getTheatersInLocation": {
+      "get": {
+        "tags": ["Theaters"],
+        "summary": "Get theaters in a location",
+        "description": "Retrieves all theaters in a specific location",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Mumbai"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Theaters in location retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TheaterResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving theaters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/theater/getMoviesAvailableInLocation": {
+      "get": {
+        "tags": ["Theaters"],
+        "summary": "Get movies available in a location",
+        "description": "Retrieves all movies currently showing in a specific location",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Mumbai"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Movies in location retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MovieResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/add_show": {
+      "post": {
+        "tags": ["Shows"],
+        "summary": "Create a new show",
+        "description": "Creates a new show with seat configuration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShowEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Show created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "show has been created"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Show creation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/getById": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get show details by ID",
+        "description": "Retrieves detailed information about a specific show",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Show details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShowResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Show not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/getAll": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get all shows",
+        "description": "Retrieves a list of all shows in the system",
+        "responses": {
+          "200": {
+            "description": "List of shows retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving shows",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/get_show_time": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get show timings",
+        "description": "Retrieves show timings for a specific movie and theater combination",
+        "parameters": [
+          {
+            "name": "movieId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "theaterId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Show timings retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": ["2024-01-15 14:30:00", "2024-01-15 18:00:00", "2024-01-15 21:30:00"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving show timings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/getAvailableSeats": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get available seats for a show",
+        "description": "Retrieves list of available seats for a specific show",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Available seats retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowSeatResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving seats",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/getSalesForShow": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get show sales revenue",
+        "description": "Retrieves total sales revenue for a specific show",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sales revenue retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 15000
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving sales",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/getShowsForMovieAndLocation": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get shows by movie and location",
+        "description": "Retrieves shows for a specific movie in a specific location",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Mumbai"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shows retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving shows",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/getShowsForDate": {
+      "get": {
+        "tags": ["Shows"],
+        "summary": "Get shows by date",
+        "description": "Retrieves all shows scheduled for a specific date",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2024-01-15"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shows retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShowResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving shows",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket/book": {
+      "post": {
+        "tags": ["Tickets"],
+        "summary": "Book movie tickets",
+        "description": "Books tickets for a specific show and seats",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TicketEntryDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ticket booked successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "ticket booked successfully. Ticket Id:1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Booking failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "requested tickets not valid not available/already booked"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket/cancel": {
+      "put": {
+        "tags": ["Tickets"],
+        "summary": "Cancel ticket",
+        "description": "Cancels a booked ticket and releases seats",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Ticket cancelled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "ticket cancelled"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cancellation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket/getById": {
+      "get": {
+        "tags": ["Tickets"],
+        "summary": "Get ticket details by ID",
+        "description": "Retrieves detailed information about a specific ticket",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Ticket details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TicketResponseDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ticket not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ticket/getAll": {
+      "get": {
+        "tags": ["Tickets"],
+        "summary": "Get all tickets",
+        "description": "Retrieves a list of all tickets in the system",
+        "responses": {
+          "202": {
+            "description": "List of tickets retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketResponseDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error retrieving tickets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserEntryDTO": {
+        "type": "object",
+        "required": ["name", "email", "mobile", "age"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "john.doe@example.com"
+          },
+          "mobile": {
+            "type": "string",
+            "example": "+1234567890"
+          },
+          "age": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 120,
+            "example": 28
+          }
+        }
+      },
+      "UserResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "john.doe@example.com"
+          },
+          "mobile": {
+            "type": "string",
+            "example": "+1234567890"
+          },
+          "age": {
+            "type": "integer",
+            "example": 28
+          }
+        }
+      },
+      "MovieEntryDTO": {
+        "type": "object",
+        "required": ["name", "genre", "rating", "duration", "language"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Avengers: Endgame"
+          },
+          "genre": {
+            "type": "string",
+            "enum": ["action", "comedy", "scifi", "horror"],
+            "example": "action"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0.0,
+            "maximum": 10.0,
+            "example": 8.4
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 181
+          },
+          "language": {
+            "type": "string",
+            "enum": ["english", "korean", "japanese", "chinese", "german"],
+            "example": "english"
+          }
+        }
+      },
+      "MovieResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Avengers: Endgame"
+          },
+          "genre": {
+            "type": "string",
+            "enum": ["action", "comedy", "scifi", "horror"],
+            "example": "action"
+          },
+          "rating": {
+            "type": "number",
+            "format": "double",
+            "example": 8.4
+          },
+          "duration": {
+            "type": "integer",
+            "example": 181
+          },
+          "language": {
+            "type": "string",
+            "enum": ["english", "korean", "japanese", "chinese", "german"],
+            "example": "english"
+          }
+        }
+      },
+      "TheaterEntryDTO": {
+        "type": "object",
+        "required": ["name", "location", "normalSeats", "premiumSeats"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "PVR Cinemas"
+          },
+          "location": {
+            "type": "string",
+            "example": "Mumbai"
+          },
+          "normalSeats": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 100
+          },
+          "premiumSeats": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 50
+          }
+        }
+      },
+      "TheaterResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "PVR Cinemas"
+          },
+          "location": {
+            "type": "string",
+            "example": "Mumbai"
+          }
+        }
+      },
+      "ShowEntryDTO": {
+        "type": "object",
+        "required": ["movieId", "theaterId", "showDate", "showTime", "showType", "normalSeatPrice", "premiumSeatPrice"],
+        "properties": {
+          "movieId": {
+            "type": "integer",
+            "example": 1
+          },
+          "theaterId": {
+            "type": "integer",
+            "example": 1
+          },
+          "showDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15"
+          },
+          "showTime": {
+            "type": "string",
+            "format": "time",
+            "example": "14:30:00"
+          },
+          "showType": {
+            "type": "string",
+            "enum": ["_2D", "_3D"],
+            "example": "_3D"
+          },
+          "normalSeatPrice": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 200
+          },
+          "premiumSeatPrice": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 350
+          }
+        }
+      },
+      "ShowResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "showDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15"
+          },
+          "showTime": {
+            "type": "string",
+            "format": "time",
+            "example": "14:30:00"
+          },
+          "showType": {
+            "type": "string",
+            "enum": ["_2D", "_3D"],
+            "example": "_3D"
+          },
+          "movieName": {
+            "type": "string",
+            "example": "Avengers: Endgame"
+          },
+          "theaterName": {
+            "type": "string",
+            "example": "PVR Cinemas"
+          }
+        }
+      },
+      "ShowSeatResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "seatNo": {
+            "type": "string",
+            "example": "A1"
+          },
+          "seatType": {
+            "type": "string",
+            "enum": ["normal", "premium"],
+            "example": "normal"
+          },
+          "price": {
+            "type": "integer",
+            "example": 200
+          },
+          "isBooked": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "TicketEntryDTO": {
+        "type": "object",
+        "required": ["userId", "showId", "requestedSeats"],
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "example": 1
+          },
+          "showId": {
+            "type": "integer",
+            "example": 1
+          },
+          "requestedSeats": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [1, 2, 3]
+          }
+        }
+      },
+      "TicketResponseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "movieName": {
+            "type": "string",
+            "example": "Avengers: Endgame"
+          },
+          "theaterName": {
+            "type": "string",
+            "example": "PVR Cinemas"
+          },
+          "showDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-15"
+          },
+          "showTime": {
+            "type": "string",
+            "format": "time",
+            "example": "14:30:00"
+          },
+          "totalAmount": {
+            "type": "integer",
+            "example": 600
+          },
+          "cancelled": {
+            "type": "boolean",
+            "example": false
+          },
+          "ticketId": {
+            "type": "string",
+            "example": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "bookedSeats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": ["A1", "A2", "A3"]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT token for authentication (future implementation)"
+      }
+    }
+  }
+} 
